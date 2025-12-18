@@ -1,4 +1,4 @@
-import { Navigate } from "react-router"
+import { Navigate, Outlet } from "react-router"
 import { useAuth } from "../components/AuthProvider.tsx"
 import { RoomList } from "../components/RoomList.tsx";
 import { useState,useEffect } from 'react';
@@ -11,7 +11,7 @@ import { socket } from "../socket.ts";
 export const Rooms = () => {
   const [text, setText] = useState('');
   const[rooms,setRooms]= useState([])
-  const { isChecked, currentUser } = useAuth();
+  const {  currentUser,logout } = useAuth();
   
    useEffect(() => {
     const fetchAll = async () => {
@@ -55,6 +55,7 @@ export const Rooms = () => {
     socket.on('roomDeleted', handleDelete);
 
 return ()=>socket.off('roomDeleted',handleDelete)  }, [])
+  
   if (!currentUser) {
     return <Navigate to={"/"}/>
   }
@@ -72,7 +73,9 @@ return ()=>socket.off('roomDeleted',handleDelete)  }, [])
   const myRooms = rooms.filter(room=>room.userId===currentUser.id)
   const anotherRooms = rooms.filter(room=>room.userId!==currentUser.id)
  
-  return (<><h1>{`Hello ${currentUser.name}! choose a room based on your interests, or create your own`}</h1>
+  return (<><button className="button"
+    onClick={logout}> LogOut</button>
+    <h1>{`Hello ${currentUser.name}! choose a room based on your interests, or create your own`}</h1>
     
    
      <form
@@ -93,10 +96,12 @@ return ()=>socket.off('roomDeleted',handleDelete)  }, [])
    
    
    
-   {rooms.length > 0 && <RoomList
+    {rooms.length > 0 ? <RoomList
+      
       myRooms={myRooms}
       antRooms={anotherRooms}
-      userId={currentUser.id}
-   />}
+      setRooms={setRooms}
+    />:<h1>There are no rooms, please create a new one.</h1>}
+      <Outlet />
   </>)
 }

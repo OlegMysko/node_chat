@@ -28,13 +28,23 @@ export function createServer() {
 
   });
 app.set('io', io);
-   io.on('connection', (socket) => {
-    console.log('🟢 client connected', socket.id);
+  io.on("connection", (socket) => {
+  console.log("🟢 User connected", socket.id);
 
-    socket.on('disconnect', () => {
-      console.log('🔴 client disconnected', socket.id);
-    });
+
+  socket.on("joinRoom", (roomId) => {
+    socket.join(String(roomId));
+    console.log(`User ${socket.id} joined room ${roomId}`);
   });
+socket.on("leaveRoom", (roomId) => {
+  socket.leave(String(roomId));
+  console.log(`User ${socket.id} left room ${roomId}`);
+});
+  socket.on("disconnect", () => {
+    console.log("🔴 User disconnected", socket.id);
+  });
+});
+
 
 
 

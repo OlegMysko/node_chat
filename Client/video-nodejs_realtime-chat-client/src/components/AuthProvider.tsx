@@ -1,6 +1,6 @@
 import React, { useMemo, useState, useEffect } from 'react';
 import {User} from '../types/User.ts'
-
+import { authService } from "../services/authService.ts";
 
 
 const AuthContext = React.createContext({
@@ -28,12 +28,18 @@ export const AuthProvider = ({children}:{children:React.ReactNode}) => {
     
   },[])
 
+async function logout() {
+    
+localStorage.removeItem('currentUser');
 
+    
+    setCurrentUser(null);
+  }
 
    const value = useMemo(
     () => ({
       isChecked,
-      currentUser,setCurrentUser
+      currentUser,setCurrentUser,logout
     }),
     [currentUser, isChecked,setCurrentUser],
   );

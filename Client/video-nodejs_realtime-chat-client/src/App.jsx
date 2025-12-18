@@ -6,6 +6,7 @@ import { MessageList } from './MessageList.jsx';
 import { Routes, Route } from 'react-router';
 import { HomePage } from './pages/HomePage.tsx';
 import { Rooms } from './pages/Rooms.tsx';
+import { ChatRoom } from './pages/ChatRoom.tsx';
 
 // #endregion
 
@@ -17,26 +18,19 @@ const DataLoader = () => {
 };
 
 export function App() {
-  const [messages, setMessages] = useState([]);
+  
 
-  function saveData(message) {
-    setMessages(message)
-  }
 
-  return (<>
+  return <>
     <section className='section content'>
       <Routes>
         <Route index element={<HomePage />} />
-        <Route path='/rooms' element={<Rooms/>}/>
+        <Route path='/rooms' element={<Rooms />}>
+          <Route path =':roomId' element={<ChatRoom/>}/>
+        
+        </Route>
       </Routes>
-   
-    </section>
-    <section className="section content">
-      <DataLoader onData={saveData} />
-
-      <MessageForm />
-      <MessageList messages={messages} />
-    </section>
+   </section>
 </>
-  )
+  
 }

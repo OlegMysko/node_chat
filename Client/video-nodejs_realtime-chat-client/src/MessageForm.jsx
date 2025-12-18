@@ -1,22 +1,21 @@
 import { useState } from 'react';
-import axios from 'axios';
 
-const API_URL = 'http://localhost:3005/messages';
+import { messageService } from './services/messageService.ts';
+import { useAuth } from './components/AuthProvider.tsx';
 
-function sendMessage(text) {
-  return axios.post(API_URL, { text });
-}
 
-export const MessageForm = () => {
+
+
+export const MessageForm = ({  roomId}) => {
   const [text, setText] = useState('');
-
+const {  currentUser } = useAuth();
   return (
     <form
       className="field is-horizontal"
       onSubmit={async (event) => {
         event.preventDefault();
         
-        await sendMessage(text);
+      await messageService.sendMessage(text,roomId,currentUser.id)
         
         setText('');
       }}
@@ -28,7 +27,8 @@ export const MessageForm = () => {
         value={text}
         onChange={event => setText(event.target.value)}
       />
-      <button className="button">Send</button>
+      <button className="button"
+      disabled = {text.length===0}>Send</button>
     </form>
   );
 };
