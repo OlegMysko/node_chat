@@ -1,6 +1,5 @@
 import React, { useMemo, useState, useEffect } from 'react';
 import {User} from '../types/User.ts'
-import { authService } from "../services/authService.ts";
 
 
 const AuthContext = React.createContext({
@@ -9,7 +8,7 @@ const AuthContext = React.createContext({
   login: async(name:string)=>{},
   logout:async()=>{}
 
-  
+
 
 })
 
@@ -19,20 +18,20 @@ export const AuthProvider = ({children}:{children:React.ReactNode}) => {
 
   useEffect(() => {
     const saved = localStorage.getItem('currentUser')
-    
+
   if (saved) {
     setCurrentUser(JSON.parse(saved))
   }
 
   setChecked(true)
-    
+
   },[])
 
 async function logout() {
-    
+
 localStorage.removeItem('currentUser');
 
-    
+
     setCurrentUser(null);
   }
 

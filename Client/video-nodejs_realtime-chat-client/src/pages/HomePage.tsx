@@ -1,14 +1,14 @@
 import { useState } from 'react'
-import { Link ,Navigate } from 'react-router';
+import { Navigate } from 'react-router';
 import { usePageError } from '../hooks/ErrorPage.tsx';
 import { authService } from '../services/authService.ts';
 import { useAuth } from '../components/AuthProvider.tsx';
-const API_URL = 'http://localhost:3005/register';
+
 export const HomePage = () => {
   const [name, setName] = useState('');
   const [error, setError] = usePageError('');
-   const { isChecked, currentUser ,setCurrentUser} = useAuth();
-  const[loading, setLoading]=useState(false)
+   const {  currentUser ,setCurrentUser} = useAuth();
+
 
   const validateName = (name) => {
   const trimmed = name.trim();
@@ -39,15 +39,15 @@ export const HomePage = () => {
     }))
 setCurrentUser(user)
   }
- 
-  
+
+
 if (currentUser) {
     return <Navigate to={"/rooms"}/>
   }
-  
+
   return (<>
-  
-    <h1>Dating Page</h1>
+
+    <h1>Chat Page</h1>
   <label htmlFor="name" className="label">
                 Enter  name
               </label>
@@ -63,9 +63,9 @@ if (currentUser) {
         placeholder="Enter  name"
         value={name}
         onChange={event => setName(event.target.value)}
-        
+
       />
-      
+
       <button className="button"
         type='submit'
      disabled={Boolean(error) || name.trim().length === 0}>Registration</button>

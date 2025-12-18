@@ -5,4 +5,4 @@ export const authRouter = new express.Router();
 authRouter.get('/rooms/:roomId/messages', authController.getMessages)
 authRouter.post('/messages', authController.sendMessage);
 authRouter.post('/login', authController.register);
-authRouter.post('/logout,', authController.logout)
+authRouter.post('/logout', authController.logout)
